@@ -5,10 +5,15 @@ function submitIssue(e) {
   const description = getInputValue('issueDescription');
   const severity = getInputValue('issueSeverity');
   const assignedTo = getInputValue('issueAssignedTo');
+  if(description.length === 0 || severity.length === 0 || assignedTo.length === 0){
+    alert('issues, severity and assigned to field can not be empty');
+    return;
+  }
   const id = Math.floor(Math.random()*100000000) + '';
   const status = 'Open';
 
   const issue = { id, description, severity, assignedTo, status };
+  
   let issues = [];
   if (localStorage.getItem('issues')){
     issues = JSON.parse(localStorage.getItem('issues'));
@@ -30,16 +35,16 @@ const closeIssue = id => {
 }
 
 const deleteIssue = id => {
-  console.log(id);
+  //console.log(id);
   const issues = JSON.parse(localStorage.getItem('issues'));
-  console.log(issues);
+  //console.log(issues);
   const remainingIssues = issues.filter(issue => 
     {
       console.log(typeof issue.id);
       return issue.id !== id 
     }
    )
-  console.log(remainingIssues);
+  //console.log(remainingIssues);
   localStorage.setItem('issues', JSON.stringify(remainingIssues));
   fetchIssues();
 }
